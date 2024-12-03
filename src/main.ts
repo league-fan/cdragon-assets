@@ -1,30 +1,53 @@
 import { AssetsKind, SAVED_DATA_PATH } from "./constants.ts";
-import { fetchAssets, saveAssets } from "./helper.ts";
+import { AssetProps, fetchAssets, saveAssets } from "./helper.ts";
+import { Skin, SkinID, Skins } from "./types/index.ts";
 import { LanguageZone } from "./types/languagezong.ts";
+import { cartesianProduct } from "https://deno.land/x/combinatorics/mod.ts";
 
-export const interestedLang = [
-  LanguageZone.EnglishDefault,
-];
+const interested = {
+  ak: Object.values(AssetsKind),
+  patch: ["pbe"],
+  lang: [LanguageZone.EnglishDefault],
+};
 
-export const interestedAssests = Object.values(AssetsKind);
+const postProcess = async ({ ak, patch, lang }: AssetProps, data: any) => {
+  const originData = `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}.json`;
+  await saveAssets(data, originData);
 
-export async function collectAssets(savepath: string) {
+  // switch (ak) {
+  //   case AssetsKind.Skins: {
+  //     const skindata = data as {
+  //       [key: SkinID]: Skin;
+  //     };
+  //     const skinlist = Object.values(skindata);
+  //     for (const skin of skinlist) {
+  //       const filepath =
+  //         `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}/${skin.id}.json`;
+  //       await saveAssets(skin, filepath);
+  //     }
+  //     console.log(`Saved ${skinlist.length} ${ak} at ${patch}/${lang}`);
+  //     break;
+  //   }
+  //   default: {
+      
+  //     break;
+  //   }
+  // }
+};
+
+export async function collectAssets() {
   const tasks = [];
-  for (const lang of interestedLang) {
-    for (const ak of interestedAssests) {
-      const task = async (
-        ak: AssetsKind,
-        patch = "pbe",
-        lang = LanguageZone.EnglishDefault,
-      ) => {
-        const data = await fetchAssets(ak, patch, lang);
-        await saveAssets(data, `${savepath}/${patch}/${lang}/${ak}.json`);
-        console.log(
-          `Saved ${ak.padEnd(20)} for ${lang.padEnd(6)} with patch ${patch}`,
-        );
-      };
-      tasks.push(task(ak, "pbe", lang));
-    }
+  const aps = [...cartesianProduct(interested.ak, interested.patch, interested.lang)]
+    .map(([ak, patch, lang]) => {
+      return { ak, patch, lang } as AssetProps;
+    });
+
+  for (const ap of aps) {
+    const task = async (ap: AssetProps) => {
+      const data = await fetchAssets(ap);
+      await postProcess(ap, data);
+    };
+    tasks.push(task(ap));
   }
   await Promise.all(tasks);
 }
@@ -36,5 +59,5 @@ export function add(a: number, b: number): number {
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
   // console.log("Add 2 + 3 =", add(2, 3));
-  await collectAssets(SAVED_DATA_PATH);
+  await collectAssets();
 }

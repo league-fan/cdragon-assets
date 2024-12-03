@@ -1,34 +1,33 @@
 import { AssetsKind, CDRAGON } from "./constants.ts";
 import { LanguageZone } from "./types/index.ts";
-import axios from "npm:axios";
-import axiosRetry from "npm:axios-retry";
 import { dirname } from "jsr:@std/path";
 import { exists } from "jsr:@std/fs";
 
-axiosRetry(axios, {
-  retries: 4,
-  retryDelay: axiosRetry.exponentialDelay,
-});
+export interface AssetProps {
+  ak: AssetsKind;
+  patch?: string;
+  lang?: LanguageZone;
+}
 
-export const assetsURL = (
-  ak: AssetsKind,
+export const assetsURL = ({
+  ak,
   patch = "pbe",
-  lang: LanguageZone = LanguageZone.EnglishDefault,
-): string => {
+  lang = LanguageZone.EnglishDefault,
+}: AssetProps): string => {
   if (lang === LanguageZone.EnglishDefault) {
     return `${CDRAGON}/${patch}/plugins/rcp-be-lol-game-data/global/default/v1/${ak}.json`;
   }
   return `${CDRAGON}/${patch}/plugins/rcp-be-lol-game-data/global/${lang}/v1/${ak}.json`;
 };
 
-export async function fetchAssets<T>(
-  ak: AssetsKind,
+export async function fetchAssets<T>({
+  ak,
   patch = "pbe",
   lang = LanguageZone.EnglishDefault,
-): Promise<T> {
-  const data = (
-    await axios.get(assetsURL(ak, patch, lang))
-  ).data;
+}: AssetProps): Promise<T> {
+  const url = assetsURL({ ak, patch, lang });
+  const data = await fetch(url).then((res) => res.json());
+  console.log(`Fetched ${ak} at ${patch}/${lang}`);
   return data;
 }
 
