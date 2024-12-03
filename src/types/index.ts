@@ -1,1 +1,1 @@
-export * from "./languagezong.ts"
+export * from "./languagezong.ts";
