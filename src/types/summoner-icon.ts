@@ -3,7 +3,7 @@ import { Description, Rarity } from "./common.ts";
 export type SummonerIconID = number;
 
 export interface SummonerIcon {
-  id: number;
+  id: SummonerIconID;
   title: string;
   yearReleased: number;
   isLegacy: boolean;

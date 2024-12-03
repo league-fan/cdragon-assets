@@ -27,7 +27,6 @@ export async function fetchAssets<T>({
 }: AssetProps): Promise<T> {
   const url = assetsURL({ ak, patch, lang });
   const data = await fetch(url).then((res) => res.json());
-  console.log(`Fetched ${ak} at ${patch}/${lang}`);
   return data;
 }
 

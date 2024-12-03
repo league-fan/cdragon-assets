@@ -14,25 +14,29 @@ const postProcess = async ({ ak, patch, lang }: AssetProps, data: any) => {
   const originData = `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}.json`;
   await saveAssets(data, originData);
 
-  // switch (ak) {
-  //   case AssetsKind.Skins: {
-  //     const skindata = data as {
-  //       [key: SkinID]: Skin;
-  //     };
-  //     const skinlist = Object.values(skindata);
-  //     for (const skin of skinlist) {
-  //       const filepath =
-  //         `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}/${skin.id}.json`;
-  //       await saveAssets(skin, filepath);
-  //     }
-  //     console.log(`Saved ${skinlist.length} ${ak} at ${patch}/${lang}`);
-  //     break;
-  //   }
-  //   default: {
-      
-  //     break;
-  //   }
-  // }
+  switch (ak) {
+    case AssetsKind.Skins: {
+      const skindata = data as {
+        [key: SkinID]: Skin;
+      };
+      const skinlist = Object.values(skindata);
+      for (const skin of skinlist) {
+        const filepath =
+          `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}/${skin.id}.json`;
+        await saveAssets(skin, filepath);
+      }
+      console.log(`Saved ${skinlist.length} ${ak} at ${patch}/${lang}`);
+      break;
+    }
+    default: {
+      const itemdata = data as Array<any>;
+      for (const item of itemdata) {
+        const filepath = `${SAVED_DATA_PATH}/${patch}/${lang}/${ak}/${item.id}.json`;
+        await saveAssets(item, filepath);
+      }
+      break;
+    }
+  }
 };
 
 export async function collectAssets() {
