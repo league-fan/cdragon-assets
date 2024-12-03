@@ -19,7 +19,9 @@ export async function collectAssets(savepath: string) {
       ) => {
         const data = await fetchAssets(ak, patch, lang);
         await saveAssets(data, `${savepath}/${patch}/${lang}/${ak}.json`);
-        console.log(`Saved ${ak.padEnd(20)} for ${lang.padEnd(6)} with patch ${patch}`);
+        console.log(
+          `Saved ${ak.padEnd(20)} for ${lang.padEnd(6)} with patch ${patch}`,
+        );
       };
       tasks.push(task(ak, "pbe", lang));
     }

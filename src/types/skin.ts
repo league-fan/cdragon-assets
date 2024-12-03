@@ -1,142 +1,142 @@
 import { SkinlineID } from "./skinline.ts";
-import { Description,Region } from "./common.ts";
+import { Description, Region } from "./common.ts";
 
 export type SkinID = number;
 
 export interface Skins {
-    [key: SkinID]: Skin;
+  [key: SkinID]: Skin;
 }
 
 export interface Skin {
-    id:                           SkinID;
-    contentId:                    string;
-    isBase:                       boolean;
-    name:                         string;
-    splashPath:                   string;
-    uncenteredSplashPath:         string;
-    tilePath:                     string;
-    loadScreenPath:               string;
-    skinType:                     SkinType;
-    rarity:                       RarityEnum;
-    isLegacy:                     boolean;
-    splashVideoPath:              null | string;
-    collectionSplashVideoPath:    null | string;
-    collectionCardHoverVideoPath: null | string;
-    featuresText:                 null | string;
-    chromaPath?:                  null | string;
-    emblems:                      null;
-    regionRarityId:               number;
-    rarityGemPath:                null;
-    skinLines:                    ISkinLine[] | null;
-    description:                  null | string;
-    loadScreenVintagePath?:       string;
-    chromas?:                     Chroma[];
-    skinAugments?:                SkinAugments;
-    questSkinInfo?:               QuestSkinInfo;
-    skinFeaturePreviewData?:      SkinFeaturePreviewDatum[];
+  id: SkinID;
+  contentId: string;
+  isBase: boolean;
+  name: string;
+  splashPath: string;
+  uncenteredSplashPath: string;
+  tilePath: string;
+  loadScreenPath: string;
+  skinType: SkinType;
+  rarity: RarityEnum;
+  isLegacy: boolean;
+  splashVideoPath: null | string;
+  collectionSplashVideoPath: null | string;
+  collectionCardHoverVideoPath: null | string;
+  featuresText: null | string;
+  chromaPath?: null | string;
+  emblems: null;
+  regionRarityId: number;
+  rarityGemPath: null;
+  skinLines: ISkinLine[] | null;
+  description: null | string;
+  loadScreenVintagePath?: string;
+  chromas?: Chroma[];
+  skinAugments?: SkinAugments;
+  questSkinInfo?: QuestSkinInfo;
+  skinFeaturePreviewData?: SkinFeaturePreviewDatum[];
 }
 
 export interface Chroma {
-    id:            number;
-    name:          string;
-    chromaPath:    string;
-    colors:        string[];
-    descriptions:  Description[];
-    rarities:      RarityElement[];
-    skinAugments?: SkinAugments;
+  id: number;
+  name: string;
+  chromaPath: string;
+  colors: string[];
+  descriptions: Description[];
+  rarities: RarityElement[];
+  skinAugments?: SkinAugments;
 }
 
 export interface RarityElement {
-    region: Region;
-    rarity: number;
+  region: Region;
+  rarity: number;
 }
 
 export interface SkinAugments {
-    borders:   Borders;
-    augments?: Augment[];
+  borders: Borders;
+  augments?: Augment[];
 }
 
 export interface Augment {
-    contentId: string;
-    overlays:  Overlay[];
+  contentId: string;
+  overlays: Overlay[];
 }
 
 export interface Overlay {
-    centeredLCOverlayPath:   string;
-    uncenteredLCOverlayPath: string;
-    socialCardLCOverlayPath: string;
-    tileLCOverlayPath:       string;
+  centeredLCOverlayPath: string;
+  uncenteredLCOverlayPath: string;
+  socialCardLCOverlayPath: string;
+  tileLCOverlayPath: string;
 }
 
 export interface Borders {
-    layer0:  Layer[];
-    layer1?: Layer[];
+  layer0: Layer[];
+  layer1?: Layer[];
 }
 
 export interface Layer {
-    contentId:  string;
-    layer:      number;
-    priority:   number;
-    borderPath: string;
+  contentId: string;
+  layer: number;
+  priority: number;
+  borderPath: string;
 }
 
 export interface QuestSkinInfo {
-    name:                  string;
-    productType:           string;
-    collectionDescription: string;
-    descriptionInfo:       DescriptionInfo[];
-    splashPath:            string;
-    uncenteredSplashPath:  string;
-    tilePath:              string;
-    collectionCardPath:    string;
-    tiers:                 Tier[];
+  name: string;
+  productType: string;
+  collectionDescription: string;
+  descriptionInfo: DescriptionInfo[];
+  splashPath: string;
+  uncenteredSplashPath: string;
+  tilePath: string;
+  collectionCardPath: string;
+  tiers: Tier[];
 }
 
 export interface DescriptionInfo {
-    title:       string;
-    description: string;
-    iconPath:    string;
+  title: string;
+  description: string;
+  iconPath: string;
 }
 
 export interface Tier {
-    id:                           number;
-    name:                         string;
-    stage:                        number;
-    description:                  string;
-    splashPath:                   string;
-    uncenteredSplashPath:         string;
-    tilePath:                     string;
-    loadScreenPath:               string;
-    shortName:                    string;
-    splashVideoPath:              null | string;
-    collectionSplashVideoPath:    null | string;
-    collectionCardHoverVideoPath: null | string;
-    skinAugments?:                SkinAugments;
-    loadScreenVintagePath?:       string;
+  id: number;
+  name: string;
+  stage: number;
+  description: string;
+  splashPath: string;
+  uncenteredSplashPath: string;
+  tilePath: string;
+  loadScreenPath: string;
+  shortName: string;
+  splashVideoPath: null | string;
+  collectionSplashVideoPath: null | string;
+  collectionCardHoverVideoPath: null | string;
+  skinAugments?: SkinAugments;
+  loadScreenVintagePath?: string;
 }
 
 export enum RarityEnum {
-    KEpic = "kEpic",
-    KExalted = "kExalted",
-    KLegendary = "kLegendary",
-    KMythic = "kMythic",
-    KNoRarity = "kNoRarity",
-    KRare = "kRare",
-    KTranscendent = "kTranscendent",
-    KUltimate = "kUltimate",
+  KEpic = "kEpic",
+  KExalted = "kExalted",
+  KLegendary = "kLegendary",
+  KMythic = "kMythic",
+  KNoRarity = "kNoRarity",
+  KRare = "kRare",
+  KTranscendent = "kTranscendent",
+  KUltimate = "kUltimate",
 }
 
 export interface SkinFeaturePreviewDatum {
-    description: string;
-    iconPath:    string;
-    videoPath:   string;
+  description: string;
+  iconPath: string;
+  videoPath: string;
 }
 
 export interface ISkinLine {
-    id: SkinlineID;
+  id: SkinlineID;
 }
 
 export enum SkinType {
-    Empty = "",
-    Ultimate = "Ultimate",
+  Empty = "",
+  Ultimate = "Ultimate",
 }
